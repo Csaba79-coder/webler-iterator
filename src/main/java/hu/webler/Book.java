@@ -23,12 +23,12 @@ public class Book implements Iterable<Book> {
     String publisher;
     int year;
     String id;
-    Map<Book, List<Book>> books;
+    Map<String, List<Book>> booksByCategory;
 
     private Map<String, List<Book>> booksByPublisher;
 
     private Map<String, List<Book>> getBooksByPublisher() {
-        return books.values().stream()
+        return booksByCategory.values().stream()
                 .flatMap(List::stream)
                 .collect(Collectors.groupingBy(Book::getPublisher));
     }
@@ -37,7 +37,7 @@ public class Book implements Iterable<Book> {
     public Iterator<Book> iterator() {
         return new Iterator<Book>() {
 
-            private final Iterator<Map.Entry<Book, List<Book>>> iter = books.entrySet().iterator();
+            private final Iterator<Map.Entry<String, List<Book>>> iter = booksByCategory.entrySet().iterator();
 
             @Override
             public boolean hasNext() {
